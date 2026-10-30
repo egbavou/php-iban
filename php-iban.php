@@ -864,7 +864,8 @@ function _iban_nationalchecksum_implementation_fr($iban,$mode) {
  # if the result was null, something is horribly wrong
  if(is_null($bban_numeric_form)) { return ''; }
  # actual implementation: 97 - mod97( bank code "Code banque" . branch code "Code guichet" . account number "Numéro de compte" . '00' )
- #  (the account number has 11 digits in France and 12 in UEMOA countries; with 11 digits this is 97 - mod97( (89 x bank) + (15 x branch) + (3 x account) ))
+ #  The account number has 11 characters in France and 12 digits in UEMOA countries.
+ #  With 11 characters this is the usual 97 - mod97( (89 x bank) + (15 x branch) + (3 x account) ).
  $expected_nationalchecksum = 97 - iban_mod97_10_checksum(substr($bban_numeric_form,0,-2) . '00');
  if(strlen($expected_nationalchecksum) == 1) { $expected_nationalchecksum = '0' . $expected_nationalchecksum; }
  # return
